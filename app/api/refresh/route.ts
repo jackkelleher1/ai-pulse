@@ -3,6 +3,7 @@ import { upsertRedditPosts } from "@/lib/fetchers/reddit";
 import { upsertHackerNewsStories } from "@/lib/fetchers/hackernews";
 import { upsertPodcastEpisodes } from "@/lib/fetchers/podcasts";
 import { upsertArxivPapers } from "@/lib/fetchers/arxiv";
+import { upsertXPosts } from "@/lib/fetchers/x";
 
 export const maxDuration = 60;
 
@@ -38,6 +39,12 @@ export async function GET(req: NextRequest) {
     results.arxiv = await upsertArxivPapers();
   } catch (e) {
     results.arxiv = `error: ${e}`;
+  }
+
+  try {
+    results.x = await upsertXPosts();
+  } catch (e) {
+    results.x = `error: ${e}`;
   }
 
   return NextResponse.json({ success: true, results, timestamp: new Date().toISOString() });

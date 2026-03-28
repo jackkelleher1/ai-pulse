@@ -7,7 +7,8 @@
       "Bash(curl -s http://localhost:3000/api/content?limit=3)",
       "Bash(python3 -m json.tool)",
       "Bash(curl -s \"https://itunes.apple.com/search?term=moonshots+peter+diamandis&media=podcast&limit=3\")",
-      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); [print\\(r.get\\(''''feedUrl'''',''''''''\\), r.get\\(''''trackName'''',''''''''\\)\\) for r in d.get\\(''''results'''',[]\\)]\")"
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); [print\\(r.get\\(''''feedUrl'''',''''''''\\), r.get\\(''''trackName'''',''''''''\\)\\) for r in d.get\\(''''results'''',[]\\)]\")",
+      "Bash(npx vercel:*)"
     ]
   }
 }

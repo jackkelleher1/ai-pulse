@@ -9,15 +9,16 @@ export async function GET(req: NextRequest) {
   const offset = parseInt(searchParams.get("offset") ?? "0");
   const sort = searchParams.get("sort") ?? "published_at";
 
+  const q = searchParams.get("q");
+
   let query = supabase
     .from("content_items")
     .select("*")
     .order(sort === "score" ? "score" : "published_at", { ascending: false })
     .range(offset, offset + limit - 1);
 
-  if (source) {
-    query = query.eq("source", source);
-  }
+  if (source) query = query.eq("source", source);
+  if (q) query = query.or(`title.ilike.%${q}%,summary.ilike.%${q}%`);
 
   const { data, error, count } = await query;
 

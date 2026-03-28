@@ -1,113 +1,53 @@
 "use client";
 
 import { formatDistanceToNow } from "date-fns";
-import {
-  ExternalLink,
-  MessageSquare,
-  TrendingUp,
-  Radio,
-  FlaskConical,
-  Flame,
-  User,
-} from "lucide-react";
+import { ExternalLink, TrendingUp } from "lucide-react";
 import type { ContentItem, Source } from "@/types/database";
 
-const SOURCE_CONFIG: Record<
-  Source,
-  { label: string; color: string; icon: React.ReactNode }
-> = {
-  reddit: {
-    label: "Reddit",
-    color: "text-orange-400 bg-orange-400/10",
-    icon: <Flame className="w-3 h-3" />,
-  },
-  x: {
-    label: "X",
-    color: "text-sky-400 bg-sky-400/10",
-    icon: <User className="w-3 h-3" />,
-  },
-  linkedin: {
-    label: "LinkedIn",
-    color: "text-blue-400 bg-blue-400/10",
-    icon: <User className="w-3 h-3" />,
-  },
-  podcast_allin: {
-    label: "All-In",
-    color: "text-purple-400 bg-purple-400/10",
-    icon: <Radio className="w-3 h-3" />,
-  },
-  podcast_moonshots: {
-    label: "Moonshots",
-    color: "text-emerald-400 bg-emerald-400/10",
-    icon: <Radio className="w-3 h-3" />,
-  },
-  hackernews: {
-    label: "HN",
-    color: "text-yellow-400 bg-yellow-400/10",
-    icon: <TrendingUp className="w-3 h-3" />,
-  },
-  arxiv: {
-    label: "arXiv",
-    color: "text-pink-400 bg-pink-400/10",
-    icon: <FlaskConical className="w-3 h-3" />,
-  },
+const SOURCE_CONFIG: Record<Source, { label: string; dot: string }> = {
+  reddit:            { label: "Reddit",    dot: "bg-orange-400" },
+  x:                 { label: "X",         dot: "bg-sky-400" },
+  linkedin:          { label: "LinkedIn",  dot: "bg-blue-400" },
+  podcast_allin:     { label: "All-In",    dot: "bg-purple-400" },
+  podcast_moonshots: { label: "Moonshots", dot: "bg-emerald-400" },
+  hackernews:        { label: "HN",        dot: "bg-yellow-400" },
+  arxiv:             { label: "arXiv",     dot: "bg-pink-400" },
 };
 
 export default function ContentCard({ item }: { item: ContentItem }) {
-  const config = SOURCE_CONFIG[item.source] ?? {
-    label: item.source,
-    color: "text-gray-400 bg-gray-400/10",
-    icon: <MessageSquare className="w-3 h-3" />,
-  };
-
+  const config  = SOURCE_CONFIG[item.source] ?? { label: item.source, dot: "bg-gray-400" };
   const timeAgo = item.published_at
     ? formatDistanceToNow(new Date(item.published_at), { addSuffix: true })
-    : "Unknown time";
+    : "";
 
   return (
     <a
       href={item.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group block bg-surface hover:bg-surface-2 border border-border hover:border-accent/40 rounded-xl p-4 transition-all duration-200"
+      className="group flex items-start gap-3 p-3.5 rounded-xl hover:bg-surface border border-transparent hover:border-border transition-all duration-150"
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-2 flex-wrap">
-            <span
-              className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${config.color}`}
-            >
-              {config.icon}
-              {config.label}
-            </span>
-            {item.author && (
-              <span className="text-xs text-gray-500">{item.author}</span>
-            )}
-            <span className="text-xs text-gray-600 ml-auto">{timeAgo}</span>
-          </div>
-
-          <h3 className="text-sm font-medium text-gray-100 group-hover:text-white leading-snug line-clamp-2 mb-1">
-            {item.title}
-          </h3>
-
-          {item.summary && (
-            <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
-              {item.summary}
-            </p>
-          )}
-
-          {item.score > 0 && (
-            <div className="flex items-center gap-1 mt-2">
-              <TrendingUp className="w-3 h-3 text-accent" />
-              <span className="text-xs text-gray-500">
-                {item.score.toLocaleString()} points
-              </span>
-            </div>
-          )}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 mb-1.5">
+          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${config.dot}`} />
+          <span className="text-xs text-gray-600">{config.label}</span>
+          {item.author && <span className="text-xs text-gray-700 truncate">{item.author}</span>}
+          <span className="text-xs text-gray-700 ml-auto shrink-0">{timeAgo}</span>
         </div>
-
-        <ExternalLink className="w-4 h-4 text-gray-600 group-hover:text-accent shrink-0 mt-0.5 transition-colors" />
+        <h3 className="text-sm font-medium text-gray-200 group-hover:text-white leading-snug line-clamp-2 transition-colors">
+          {item.title}
+        </h3>
+        {item.summary && (
+          <p className="text-xs text-gray-600 line-clamp-2 mt-1 leading-relaxed">{item.summary}</p>
+        )}
+        {item.score > 0 && (
+          <div className="flex items-center gap-1 mt-1.5">
+            <TrendingUp className="w-3 h-3 text-gray-700" />
+            <span className="text-xs text-gray-700">{item.score.toLocaleString()}</span>
+          </div>
+        )}
       </div>
+      <ExternalLink className="w-3.5 h-3.5 text-gray-700 group-hover:text-gray-400 shrink-0 mt-0.5 transition-colors" />
     </a>
   );
 }
