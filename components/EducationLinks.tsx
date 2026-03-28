@@ -7,18 +7,18 @@ const RESOURCES = [
     bg: "bg-purple-400/10",
     icon: BookOpen,
     items: [
-      { title: "fast.ai — Practical Deep Learning", desc: "Free top-down course. The fastest path from zero to building real models.", url: "https://fast.ai/course" },
+      { title: "fast.ai — Practical Deep Learning", desc: "Free top-down course. The fastest path from zero to building real models.", url: "https://course.fast.ai" },
       { title: "Neural Networks: Zero to Hero", desc: "Andrej Karpathy builds everything from scratch. The clearest explainer on the internet.", url: "https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ" },
     ],
   },
   {
-    category: "LLMs & AI",
+    category: "LLMs & Agents",
     color: "text-sky-400",
     bg: "bg-sky-400/10",
     icon: Cpu,
     items: [
       { title: "Hugging Face NLP Course", desc: "Free, hands-on course covering transformers, fine-tuning, and deployment.", url: "https://huggingface.co/learn/nlp-course" },
-      { title: "LLMs from Scratch", desc: "Sebastian Raschka's book — build a GPT-style LLM from the ground up.", url: "https://github.com/rasbt/LLMs-from-scratch" },
+      { title: "LLMs from Scratch", desc: "Sebastian Raschka's book — build a GPT-style LLM from the ground up in PyTorch.", url: "https://github.com/rasbt/LLMs-from-scratch" },
     ],
   },
   {
@@ -27,8 +27,8 @@ const RESOURCES = [
     bg: "bg-pink-400/10",
     icon: FlaskConical,
     items: [
-      { title: "Papers With Code", desc: "Every ML paper with its code implementation. The best way to stay current.", url: "https://paperswithcode.com" },
-      { title: "Arxiv Sanity", desc: "Tame the arXiv firehose. Filter, search, and save the papers that matter.", url: "https://arxiv-sanity-lite.com" },
+      { title: "Papers With Code", desc: "Every ML paper linked to its implementation. The best way to stay current.", url: "https://paperswithcode.com" },
+      { title: "Hugging Face Daily Papers", desc: "Top arXiv papers voted on by the ML community — curated signal.", url: "https://huggingface.co/papers" },
     ],
   },
   {
@@ -37,8 +37,8 @@ const RESOURCES = [
     bg: "bg-emerald-400/10",
     icon: Wrench,
     items: [
-      { title: "OpenAI Cookbook", desc: "Practical examples and guides for building with the OpenAI API.", url: "https://cookbook.openai.com" },
-      { title: "Anthropic Docs", desc: "Claude API documentation and prompt engineering best practices.", url: "https://docs.anthropic.com" },
+      { title: "OpenAI Cookbook", desc: "Practical examples and guides for building with GPT-4o and o3.", url: "https://cookbook.openai.com" },
+      { title: "Anthropic Docs", desc: "Claude API docs, prompt engineering guides, and the Claude 3.5 system card.", url: "https://docs.anthropic.com" },
     ],
   },
   {
@@ -47,8 +47,8 @@ const RESOURCES = [
     bg: "bg-yellow-400/10",
     icon: Users,
     items: [
-      { title: "The Batch — DeepLearning.AI", desc: "Andrew Ng's weekly AI newsletter. Curated, signal-over-noise.", url: "https://www.deeplearning.ai/the-batch" },
-      { title: "Import AI", desc: "Jack Clark's newsletter on AI research. Dense, technical, essential.", url: "https://importai.substack.com" },
+      { title: "The Batch — DeepLearning.AI", desc: "Andrew Ng's weekly newsletter. Consistently the best signal-to-noise in AI media.", url: "https://www.deeplearning.ai/the-batch" },
+      { title: "TLDR AI", desc: "Daily 5-minute digest of the most important AI news, research, and launches.", url: "https://tldr.tech/ai" },
     ],
   },
 ];

@@ -36,23 +36,27 @@ async function getLatest13FAccession(): Promise<{ accession: string; date: strin
 }
 
 async function getHoldingsXml(accession: string): Promise<string | null> {
-  // accession format: "0002045724-25-000002" → "000204572425000002"
+  // accession format: "0002045724-26-000002" → "000204572426000002"
   const accFormatted = accession.replace(/-/g, "");
   const cikShort = SA_CIK.replace(/^0+/, "");
   const baseUrl = `https://www.sec.gov/Archives/edgar/data/${cikShort}/${accFormatted}`;
 
-  // Get index to find the actual XML file
-  const idxRes = await fetch(`${baseUrl}/${accession}-index.json`, {
+  // Scrape the HTML directory listing to find the holdings XML filename
+  const dirRes = await fetch(`${baseUrl}/`, {
     headers: { "User-Agent": "AI-Pulse/1.0 contact@aipulse.dev" },
   });
-  if (!idxRes.ok) return null;
-  const idx = await idxRes.json();
-  const xmlFile = idx.documents?.find((d: { type: string; document: string }) =>
-    d.type === "13F-HR" && d.document.endsWith(".xml")
-  );
-  if (!xmlFile) return null;
+  if (!dirRes.ok) return null;
+  const html = await dirRes.text();
 
-  const xmlRes = await fetch(`${baseUrl}/${xmlFile.document}`, {
+  // Find an XML file that isn't the primary_doc (which is the cover page)
+  const xmlMatch = html.match(/href="([^"]+\.xml)"/g)
+    ?.map(m => m.replace(/href="|"/g, ""))
+    .find(f => !f.includes("primary_doc"));
+
+  if (!xmlMatch) return null;
+  const xmlFilename = xmlMatch.split("/").pop()!;
+
+  const xmlRes = await fetch(`${baseUrl}/${xmlFilename}`, {
     headers: { "User-Agent": "AI-Pulse/1.0 contact@aipulse.dev" },
     next: { revalidate: 3600 },
   });
@@ -62,14 +66,17 @@ async function getHoldingsXml(accession: string): Promise<string | null> {
 
 function parseHoldingsXml(xml: string): Omit<Holding, "ticker" | "pctPortfolio" | "rank">[] {
   const holdings: Omit<Holding, "ticker" | "pctPortfolio" | "rank">[] = [];
-  const itemRegex = /<infoTable>([\s\S]*?)<\/infoTable>/g;
+  // Handle both namespaced (ns1:infoTable) and plain (<infoTable>) tags
+  const itemRegex = /<(?:\w+:)?infoTable>([\s\S]*?)<\/(?:\w+:)?infoTable>/g;
   let match;
 
   while ((match = itemRegex.exec(xml)) !== null) {
     const block = match[1];
-    const get = (tag: string) => block.match(new RegExp(`<${tag}[^>]*>([^<]*)<`))?.[1]?.trim() ?? "";
+    // Match tags with optional namespace prefix
+    const get = (tag: string) => block.match(new RegExp(`<(?:\\w+:)?${tag}[^>]*>([^<]*)<`))?.[1]?.trim() ?? "";
 
-    const value  = parseInt(get("value"),    10) * 1000;
+    // Values are reported in dollars (not thousands) for this fund
+    const value  = parseInt(get("value"),    10);
     const shares = parseInt(get("sshPrnamt"), 10);
 
     if (!isNaN(value) && !isNaN(shares)) {

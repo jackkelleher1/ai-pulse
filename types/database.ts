@@ -5,7 +5,23 @@ export type Source =
   | "podcast_allin"
   | "podcast_moonshots"
   | "hackernews"
-  | "arxiv";
+  | "arxiv"
+  | "anthropic"
+  | "openai"
+  | "huggingface"
+  | "tldr_ai"
+  | "venturebeat"
+  | "mit_tech_review"
+  | "deepmind"
+  | "microsoft_ai"
+  | "theverge"
+  | "techcrunch"
+  | "wired"
+  | "ars_technica"
+  | "the_decoder"
+  | "nytimes"
+  | "wsj"
+  | "marketwatch";
 
 export interface ContentItem {
   id: string;
