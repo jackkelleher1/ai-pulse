@@ -4,6 +4,7 @@ import { upsertHackerNewsStories } from "@/lib/fetchers/hackernews";
 import { upsertPodcastEpisodes } from "@/lib/fetchers/podcasts";
 import { upsertArxivPapers } from "@/lib/fetchers/arxiv";
 import { upsertXPosts } from "@/lib/fetchers/x";
+import { upsertRssFeeds } from "@/lib/fetchers/rssfeeds";
 
 export const maxDuration = 60;
 
@@ -45,6 +46,13 @@ export async function GET(req: NextRequest) {
     results.x = await upsertXPosts();
   } catch (e) {
     results.x = `error: ${e}`;
+  }
+
+  try {
+    const rss = await upsertRssFeeds();
+    Object.assign(results, rss);
+  } catch (e) {
+    results.rss = `error: ${e}`;
   }
 
   return NextResponse.json({ success: true, results, timestamp: new Date().toISOString() });

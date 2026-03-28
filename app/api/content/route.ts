@@ -4,7 +4,8 @@ import type { Source } from "@/types/database";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const source = searchParams.get("source") as Source | null;
+  const sourceParam = searchParams.get("source");
+  const sources = sourceParam ? sourceParam.split(",").map(s => s.trim()) as Source[] : null;
   const limit = Math.min(parseInt(searchParams.get("limit") ?? "20"), 100);
   const offset = parseInt(searchParams.get("offset") ?? "0");
   const sort = searchParams.get("sort") ?? "published_at";
@@ -17,7 +18,8 @@ export async function GET(req: NextRequest) {
     .order(sort === "score" ? "score" : "published_at", { ascending: false })
     .range(offset, offset + limit - 1);
 
-  if (source) query = query.eq("source", source);
+  if (sources?.length === 1) query = query.eq("source", sources[0]);
+  else if (sources && sources.length > 1) query = query.in("source", sources);
   if (q) query = query.or(`title.ilike.%${q}%,summary.ilike.%${q}%`);
 
   const { data, error, count } = await query;

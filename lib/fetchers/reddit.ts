@@ -33,7 +33,7 @@ export async function fetchRedditPosts(): Promise<ContentItemInsert[]> {
       const res = await fetch(
         `https://www.reddit.com/r/${subreddit}/hot.json?limit=25`,
         {
-          headers: { "User-Agent": "AI-Pulse/1.0" },
+          headers: { "User-Agent": "Mozilla/5.0 (compatible; AI-Pulse/1.0; +https://situaitionroom.com)" },
           next: { revalidate: 1800 },
         }
       );
