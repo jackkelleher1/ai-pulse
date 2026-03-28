@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
   Radio, TrendingUp, BookOpen, Rocket, Mic2,
-  Compass, Users, Search,
+  Compass, Users, Search, Briefcase,
 } from "lucide-react";
 import Logo from "@/components/Logo";
 
@@ -17,6 +17,7 @@ const NAV = [
   { href: "/podcasts",  label: "Podcasts",        short: "Podcasts",  Icon: Mic2 },
   { href: "/discover",  label: "Discover",        short: "Discover",  Icon: Compass },
   { href: "/creators",  label: "Creators",        short: "Creators",  Icon: Users },
+  { href: "/services",  label: "Services",        short: "Services",  Icon: Briefcase },
 ];
 
 export default function TopNav() {
