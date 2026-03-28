@@ -93,14 +93,14 @@ export default function TopNav() {
 
       {/* ── Mobile bottom nav bar ── */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#0a0a0a]/95 backdrop-blur-md border-t border-white/[0.08] safe-area-pb">
-        <div className="flex items-center justify-around px-1 h-14">
+        <div className="flex items-center overflow-x-auto scrollbar-none px-1 h-14">
           {NAV.map(({ href, short, Icon }) => {
             const active = pathname === href;
             return (
               <Link
                 key={href}
                 href={href}
-                className={`relative flex flex-col items-center justify-center gap-0.5 min-w-0 flex-1 h-full transition-all ${
+                className={`relative flex flex-col items-center justify-center gap-0.5 min-w-[60px] flex-shrink-0 h-full transition-all ${
                   active ? "text-white" : "text-gray-600 active:text-gray-300"
                 }`}
               >

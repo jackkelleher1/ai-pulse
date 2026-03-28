@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 * { box-sizing: border-box; }
+.scrollbar-none { scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
 
 body {
   background: #0a0a0a;
