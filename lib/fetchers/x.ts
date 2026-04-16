@@ -1,11 +1,8 @@
 import { supabaseAdmin as supabase } from "@/lib/supabase-admin";
 import type { ContentItemInsert } from "@/types/database";
 
-// Add more feeds here as you create them on rss.app
 const FEEDS = [
-  { username: "chamath", display: "Chamath Palihapitiya", url: "https://rss.app/feeds/BwoW1DxsaFzaiBW9.xml" },
-  // { username: "sama", display: "Sam Altman", url: "https://rss.app/feeds/XXXXXXXX.xml" },
-  // { username: "karpathy", display: "Andrej Karpathy", url: "https://rss.app/feeds/XXXXXXXX.xml" },
+  { username: "chamath", display: "Chamath Palihapitiya", url: "https://chamath.substack.com/feed" },
 ];
 
 interface ParsedPost {
